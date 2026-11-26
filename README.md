@@ -1,35 +1,34 @@
-# Fed-MAGNet
+## 📊 Datasets
 
-# Fed-MAGNet: Trust-Aware Federated Hybrid Model with Explainable AI for TON-IoT
+The Fed-MAGNet framework is evaluated using two cybersecurity datasets to investigate the robustness, generalization, and reliability of trust-aware federated intrusion detection across heterogeneous IoT environments.
 
-## 📌 Overview
-This repository contains the implementation of a **Multi-Agent Federated Learning** framework designed for IoT Intrusion Detection. The model is evaluated on the **TON-IoT Network Dataset** and combines a hybrid deep learning architecture with a **Trust-Aware Aggregation** mechanism to ensure robust and secure federated training.
+### 1. TON-IoT Network Dataset
 
-To provide transparency, the framework includes an **Explainable AI (XAI)** pipeline featuring **Integrated Gradients** (for feature-level attribution) and **GNNExplainer** (for explanatory subgraphs and communication paths).
+- **Input File:** `train_test_network.csv`
+- **Features Used:** 34 selected network traffic features.
+- **Classes:** 10 (backdoor, ddos, dos, injection, mitm, normal, password, ransomware, scanning, xss).
+- **Data Balancing:** SMOTE applied to the training set.
+- **Federated Configuration:** Data partitioned among 5 agents.
+- **Evaluation:** Multiclass intrusion detection and trust-aware federated aggregation.
 
-## ✨ Key Features
-*   **Hybrid Deep Learning Architecture:**
-    *   `CNN Branch`: 1D Convolutional layers for spatial feature extraction.
-    *   `Adaptive Temporal Attention`: Dynamic feature re-weighting.
-    *   `GAT Branch`: Graph Attention Network leveraging feature correlation as an attention mask.
-    *   `Capsule Network`: Dynamic routing to class capsules (`NodeToClassCaps`) with Margin Loss for robust classification.
-*   **Multi-Agent Federated Learning (5 Agents):**
-    *   **Ring Topology:** Peer-to-peer communication between neighboring clients before global aggregation.
-    *   **Trust-Aware Aggregation:** Agents are assigned dynamic trust scores based on update consistency (cosine similarity), loss behavior, and historical reliability (exponential moving average).
-*   **Explainable AI (XAI):**
-    *   **Integrated Gradients (IG):** Computes feature-level attributions to understand global and per-class feature importance.
-    *   **GNNExplainer:** Learns soft edge masks over the feature-correlation graph to extract explanatory subgraphs and communication paths.
-    *   **Combined Contribution Summary:** Merges IG and GNN importance into High/Medium/Low contribution labels.
+### 2. CIC IoMT Dataset 2024
 
-## 📊 Dataset
-The code is configured to run on the **TON-IoT Network Dataset**.
-*   **Input File:** `train_test_network.csv`
-*   **Features Used:** 34 (after dropping high-cardinality columns like `dns_query`, `ssl_subject`, etc.)
-*   **Classes:** 10 (backdoor, ddos, dos, injection, mitm, normal, password, ransomware, scanning, xss)
-*   **Data Balancing:** The training set is balanced using **SMOTE** before being partitioned into 5 agents.
+- **Dataset:** CIC IoMT Dataset 2024.
+- **Official Source:** https://www.unb.ca/cic/datasets/iomt-dataset-2024.html
+- **Environment:** Internet of Medical Things (IoMT).
+- **IoMT Devices:** 40 devices (25 real and 15 simulated).
+- **Protocols:** Wi-Fi, MQTT, and Bluetooth Low Energy (BLE).
+- **Attack Categories:** DDoS, DoS, Recon, MQTT, and Spoofing.
+- **Attack Scenarios:** 18 different cyberattack scenarios.
+- **Data Formats:** CSV feature files and original PCAP network traffic files.
+- **Data Preprocessing:** Data cleaning, missing-value handling, categorical encoding, feature selection, and normalization.
+- **Federated Configuration:** Distributed data partitioning among 5 agents.
+- **Evaluation:** Multiclass IoMT intrusion detection, federated learning performance, and trust-aware aggregation.
 
-## 🛠️ Requirements & Installation
-Ensure you have Python 3.8+ installed. Install the required dependencies:
+### Dataset Integration Strategy
 
-```bash
-pip install tensorflow scikit-learn imbalanced-learn pandas numpy matplotlib seaborn networkx
+Both datasets are processed independently using dataset-specific preprocessing and feature configurations. The same Fed-MAGNet architecture, trust-aware aggregation strategy, and explainable AI framework are used to evaluate their respective intrusion detection tasks.
+
+The framework uses Integrated Gradients for feature-level explanations and GNNExplainer for graph-based explanations.
+
+**Important:** The two datasets have different feature spaces and attack labels. Separate classification heads or dataset-specific model configurations should be used where necessary. Their raw features should not be directly merged.
